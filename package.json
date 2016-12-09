@@ -1,5 +1,5 @@
 {
-  "name": "mongodb-geohashing",
+  "name": "server-side-clustering-mongodb",
   "version": "0.0.0",
   "private": true,
   "scripts": {
