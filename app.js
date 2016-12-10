@@ -3,12 +3,9 @@ var bodyParser = require('body-parser'),
     express = require('express'),
     favicon = require('serve-favicon'),
     logger = require('morgan'),
-    mongoose = require('mongoose'),
-    path = require('path'),
-    Promise = require('bluebird');
+    path = require('path');
 
-mongoose.Promise = Promise;
-mongoose.connect(process.env.DATABASE_URL || 'mongodb://localhost/server-side-clustering');
+require('./db');
 require('./generator')();
 
 var apiRoutes = require('./routes/api'),
