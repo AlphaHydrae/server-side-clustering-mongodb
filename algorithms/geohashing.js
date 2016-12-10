@@ -16,17 +16,19 @@ module.exports = function(bbox) {
     },
     {
       $match: {
-        lat: { $gte: bbox.minLat, $lte: bbox.maxLat },
-        lng: { $gte: bbox.minLng, $lte: bbox.maxLng },
         prefix: { $in: prefixData.prefixes }
+      }
+    },
+    {
+      $match: {
+        lat: { $gte: bbox.minLat, $lte: bbox.maxLat },
+        lng: { $gte: bbox.minLng, $lte: bbox.maxLng }
       }
     },
     {
       $group: {
         _id: '$prefix',
-        count: {
-          $sum: 1
-        },
+        count: { $sum: 1 },
         lat: { $avg: '$lat' },
         lng: { $avg: '$lng' }
       }

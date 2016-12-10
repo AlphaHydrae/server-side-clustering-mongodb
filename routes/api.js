@@ -5,6 +5,7 @@ var _ = require('lodash'),
     router = express.Router();
 
 var algorithms = {
+  aggregation: require('../algorithms/aggregation'),
   geohashing: require('../algorithms/geohashing')
 };
 
@@ -49,7 +50,9 @@ function computeClusters(type, bboxString) {
     maxLng: coordinates[2]
   };
 
-  if (type == 'geohashing') {
+  if (type == 'aggregation') {
+    return algorithms.aggregation(bbox);
+  } else if (type == 'geohashing') {
     return algorithms.geohashing(bbox);
   } else {
     throw new Error('Unknown cluster type "' + type + '"');

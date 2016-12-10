@@ -4,6 +4,8 @@ html(ng-app='mgh')
   head
     title= title
 
+    link(rel='stylesheet', href='/node_modules/bootstrap/dist/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/node_modules/bootstrap/dist/css/bootstrap-theme.min.css')
     link(rel='stylesheet', href='/node_modules/leaflet/dist/leaflet.css')
     link(rel='stylesheet', href='/css/app.css')
 
@@ -14,8 +16,14 @@ html(ng-app='mgh')
     script(src='/node_modules/bluebird/js/browser/bluebird.js')
     script(src='/node_modules/jquery/dist/jquery.slim.js')
     script(src='/node_modules/leaflet/dist/leaflet-src.js')
+    script(src='/node_modules/rx/dist/rx.lite.js')
+    script(src='/node_modules/rx/dist/rx.aggregates.js')
 
     script(src='/node_modules/angular/angular.js')
     script(src='/node_modules/angular-leaflet-directive/dist/angular-leaflet-directive.js')
+    script(src='/node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js')
+    script(src='/node_modules/rx-angular/dist/rx.angular.js')
 
     script(src='/js/app.js')
+    script(src='/js/controls.js')
+    script(src='/js/map.js')

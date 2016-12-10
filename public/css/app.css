@@ -24,3 +24,11 @@ map .angular-leaflet-map {
   text-align: center;
   line-height: 40px;
 }
+html,
+body {
+  height: 100%;
+}
+.map-column {
+  padding: 0;
+  height: 100%;
+}
