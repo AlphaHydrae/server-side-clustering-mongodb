@@ -29,7 +29,6 @@ module.exports = function(bbox) {
 };
 
 function aggregate(bbox, precision) {
-
   return Point.aggregate([
     {
       $match: {

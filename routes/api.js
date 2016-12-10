@@ -50,10 +50,9 @@ function computeClusters(type, bboxString) {
     maxLng: coordinates[2]
   };
 
-  if (type == 'aggregation') {
-    return algorithms.aggregation(bbox);
-  } else if (type == 'geohashing') {
-    return algorithms.geohashing(bbox);
+  var algorithm = algorithms[type];
+  if (algorithm) {
+    return algorithm(bbox);
   } else {
     throw new Error('Unknown cluster type "' + type + '"');
   }
