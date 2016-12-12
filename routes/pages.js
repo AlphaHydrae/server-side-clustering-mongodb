@@ -19,7 +19,7 @@ router.get('/templates/:name.html', function(req, res) {
 });
 
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Express' });
+  res.render('index');
 });
 
 module.exports = router;
