@@ -6,7 +6,7 @@ var _ = require('lodash'),
 exports.log = true;
 
 mongoose.Promise = Promise;
-mongoose.connect(process.env.DATABASE_URL || 'mongodb://localhost/server-side-clustering');
+mongoose.connect(process.env.MONGODB_URI || process.env.DATABASE_URL || 'mongodb://localhost/server-side-clustering');
 
 mongoose.set('debug', function(col, method, query, doc, options) {
   if (!exports.log) {
