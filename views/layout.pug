@@ -1,28 +1,35 @@
 doctype html
-html(ng-app='mgh')
+html(ng-app='ssc')
 
   head
     title Server-side clustering with MongoDB
 
     link(rel='stylesheet', href='/node_modules/bootstrap/dist/css/bootstrap.min.css')
     link(rel='stylesheet', href='/node_modules/bootstrap/dist/css/bootstrap-theme.min.css')
+    link(rel='stylesheet', href='/node_modules/font-awesome/css/font-awesome.min.css')
+    link(rel='stylesheet', href='/node_modules/angular-loading-bar/build/loading-bar.min.css')
     link(rel='stylesheet', href='/node_modules/leaflet/dist/leaflet.css')
     link(rel='stylesheet', href='/css/app.css')
 
   body
     block content
 
-    script(src='/node_modules/lodash/lodash.js')
-    script(src='/node_modules/bluebird/js/browser/bluebird.js')
-    script(src='/node_modules/jquery/dist/jquery.slim.js')
-    script(src='/node_modules/leaflet/dist/leaflet-src.js')
-    script(src='/node_modules/rx/dist/rx.lite.js')
-    script(src='/node_modules/rx/dist/rx.aggregates.js')
+    script(src='/node_modules/lodash/lodash.min.js')
+    script(src='/node_modules/bluebird/js/browser/bluebird.min.js')
+    script(src='/node_modules/jquery/dist/jquery.slim.min.js')
+    script(src='/node_modules/leaflet/dist/leaflet.js')
+    script(src='/node_modules/marked/marked.min.js')
+    script(src='/node_modules/rx/dist/rx.lite.min.js')
+    script(src='/node_modules/rx/dist/rx.aggregates.min.js')
 
-    script(src='/node_modules/angular/angular.js')
-    script(src='/node_modules/angular-leaflet-directive/dist/angular-leaflet-directive.js')
+    script(src='/node_modules/angular/angular.min.js')
+    script(src='/node_modules/angular-animate/angular-animate.min.js')
+    script(src='/node_modules/angular-leaflet-directive/dist/angular-leaflet-directive.min.js')
+    script(src='/node_modules/angular-loading-bar/build/loading-bar.min.js')
+    script(src='/node_modules/angular-marked/dist/angular-marked.min.js')
+    script(src='/node_modules/angular-sanitize/angular-sanitize.min.js')
     script(src='/node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js')
-    script(src='/node_modules/rx-angular/dist/rx.angular.js')
+    script(src='/node_modules/rx-angular/dist/rx.angular.min.js')
 
     script(src='/js/app.js')
     script(src='/js/controls.js')

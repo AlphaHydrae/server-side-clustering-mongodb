@@ -9,11 +9,14 @@ var algorithms = {
   geohashing: require('../algorithms/geohashing')
 };
 
-router.get('/points', function(req, res, next) {
+router.head('/points', function(req, res, next) {
   Promise
     .resolve()
-    .then(fetchPoints)
-    .then(_.bind(res.json, res))
+    .then(countPoints)
+    .then(function(count) {
+      res.set('SSC-Points-Count', count);
+      res.send();
+    })
     .catch(next);
 });
 
@@ -35,8 +38,8 @@ router.use(function(err, req, res, next) {
 
 module.exports = router;
 
-function fetchPoints() {
-  return Point.find().exec();
+function countPoints() {
+  return Point.count().exec();
 }
 
 function computeClusters(type, bboxString) {

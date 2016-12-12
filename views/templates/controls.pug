@@ -1,7 +1,50 @@
 .page-header
   h3 Server-side clustering
 
-form
-  .btn-group
-    label.btn.btn-primary(ng-model='controls.params.algorithm', uib-btn-radio='"geohashing"') Geohashing
-    label.btn.btn-primary(ng-model='controls.params.algorithm', uib-btn-radio='"aggregation"') Live aggregation
+p(ng-if='controls.pointsCount') There are {{ controls.pointsCount | number }} points in the database.
+
+.panel.panel-default
+  .panel-heading
+    h3.panel-title Algorithm
+  .panel-body
+    .btn-group.btn-group-justified
+      label.btn.btn-primary(ng-model='controls.params.algorithm', uib-btn-radio='"geohashing"') Geohashing
+      label.btn.btn-primary(ng-model='controls.params.algorithm', uib-btn-radio='"aggregation"') Live aggregation
+    br
+    div(ng-if='controls.params.algorithm == "geohashing"')
+      marked
+        | Points are clustered using a pre-computed [geohash](https://en.wikipedia.org/wiki/Geohash).
+      .text-center
+        .btn-group
+          a.btn.btn-info(href='https://github.com/AlphaHydrae/server-side-clustering-mongodb/blob/master/algorithms/geohashing.js')
+            span.fa.fa-github
+            = ' '
+            | Algorithm
+          a.btn.btn-info(href='https://github.com/AlphaHydrae/server-side-clustering-mongodb/blob/a1c3937b52e9d1c7d1377dfa5f7f31eca0bf2e32/generator.js#L66')
+            span.fa.fa-github
+            = ' '
+            | Pre-computing
+    div(ng-if='controls.params.algorithm == "aggregation"')
+      marked
+        | Points are aggregated by proximity on-the-fly using the [MongoDB aggregation pipeline](https://docs.mongodb.com/v3.2/core/aggregation-pipeline/).
+      .text-center
+        .btn-group
+          a.btn.btn-info(href='https://github.com/AlphaHydrae/server-side-clustering-mongodb/blob/master/algorithms/aggregation.js')
+            span.fa.fa-github
+            = ' '
+            | Algorithm
+
+.panel.panel-default
+  .panel-heading
+    h3.panel-title Latest requests
+  table.table(ng-if='controls.requests.length')
+    thead
+      tr
+        th #
+        th Algorithm
+        th Time
+    tbody
+      tr(ng-repeat='req in controls.requests | reverse')
+        td {{ controls.requestsCount - $index }}
+        td {{ req.algorithm }}
+        td {{ req.time | number }}ms

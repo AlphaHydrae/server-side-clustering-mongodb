@@ -1,18 +1,25 @@
-angular.module('mgh').factory('Map', function(rx) {
+angular.module('ssc').factory('Map', function(rx) {
 
-  var subject = new rx.BehaviorSubject();
+  var paramsSubject = new rx.BehaviorSubject(),
+      requestSubject = new rx.BehaviorSubject();
 
   return {
     updateParams: function(params) {
-      subject.onNext(params);
+      paramsSubject.onNext(params);
     },
     onParamsUpdated: function(callback) {
-      subject.subscribe(callback);
+      paramsSubject.subscribe(callback);
+    },
+    notifyRequest: function(request) {
+      requestSubject.onNext(request);
+    },
+    onRequest: function(callback) {
+      requestSubject.subscribe(callback);
     }
   };
 })
 
-angular.module('mgh').component('map', {
+angular.module('ssc').component('map', {
   templateUrl: '/templates/map.html',
   controllerAs: 'mapCtrl',
   controller: function($http, leafletData, $log, Map, $scope) {
@@ -52,18 +59,32 @@ angular.module('mgh').component('map', {
       Promise
         .resolve()
         .then(fetchClusters)
-        .get('data')
         .then(updateMap)
         .then(_.bind($scope.$apply, $scope));
     }
 
     function fetchClusters() {
+
+      var algorithm = mapParams.algorithm,
+          bounds = leafletMap.getBounds(),
+          start = new Date().getTime();
+
       return $http({
         url: '/api/clusters',
         params: {
-          type: mapParams.algorithm,
-          bbox: leafletMap.getBounds().toBBoxString()
+          type: algorithm,
+          bbox: bounds.toBBoxString()
         }
+      }).then(function(res) {
+
+        Map.notifyRequest({
+          algorithm: algorithm,
+          bounds: bounds,
+          time: new Date().getTime() - start,
+          response: res
+        });
+
+        return res.data;
       });
     }
 
