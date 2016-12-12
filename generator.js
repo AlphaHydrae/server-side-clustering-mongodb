@@ -1,5 +1,6 @@
 var _ = require('lodash'),
     Chance = require('chance'),
+    db = require('./db'),
     debug = require('debug')('ssc:generator');
     geohash = require('ngeohash'),
     Point = require('./models/point'),
@@ -9,15 +10,23 @@ var chance = new Chance();
 
 module.exports = function() {
 
-  var promise = Promise.resolve();
+  var data = {
+    generatedCount: 0,
+    targetCount: parseInt(process.env.SSC_COUNT || '1000', 10)
+  };
+
+  var promise = Promise.resolve(data);
 
   if (process.env.SSC_CLEAR) {
     promise = promise.then(clearPoints);
   }
 
   return promise
+    .return(data)
     .then(countPoints)
+    .return(data)
     .then(generateMissingPoints)
+    .return(data)
     .then(done);
 };
 
@@ -25,21 +34,26 @@ function clearPoints() {
   return Point.remove({});
 }
 
-function countPoints() {
-  return Point.count();
+function countPoints(data) {
+  return Point.count().then(function(count) {
+    data.count = count;
+  });
 }
 
-function generateMissingPoints(count) {
+function generateMissingPoints(data) {
 
-  var n = parseInt(process.env.SSC_COUNT || '1000', 10) - count;
-  if (n <= 0) {
-    debug('Enough points (' + count + ') are already in the database; set $SSC_CLEAR to regenerate them');
-    return [];
+  if (data.generatedCount === 0 && data.count >= data.targetCount) {
+    debug('Enough points (' + data.count + ') are already in the database; set $SSC_CLEAR to regenerate them');
+    return;
+  } else if (data.generatedCount === 0) {
+    debug('Generating ' + (data.targetCount - data.count) + ' random points');
   }
 
-  debug('Generating ' + n + ' random points');
+  var n = Math.min(data.targetCount - data.count - data.generatedCount, 1000);
 
   var points = [];
+
+  db.log = false;
 
   _.times(n, function() {
 
@@ -59,11 +73,22 @@ function generateMissingPoints(count) {
 
   return Promise.map(points, function(point) {
     return point.save();
+  }).then(function() {
+
+    data.generatedCount += n;
+    debug('Generated ' + data.generatedCount + '/' + (data.targetCount - data.count) + ' points');
+
+    if (data.count + data.generatedCount < data.targetCount) {
+      return generateMissingPoints(data);
+    }
   });
 }
 
-function done(points) {
-  if (points.length) {
+function done(data) {
+
+  db.log = true;
+
+  if (data.generatedCount) {
     debug('Done generating points');
   }
 }
