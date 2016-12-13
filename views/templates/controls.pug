@@ -42,9 +42,12 @@ p(ng-if='controls.pointsCount') There are {{ controls.pointsCount | number }} po
       tr
         th #
         th Algorithm
-        th Time
+        th Time (alg. + round trip)
     tbody
       tr(ng-repeat='req in controls.requests | reverse')
         td {{ controls.requestsCount - $index }}
         td {{ req.algorithm }}
-        td {{ req.time | number }}ms
+        td
+          | {{ req.algorithmTime | number }}ms
+          = ' '
+          small +{{ (req.time - req.algorithmTime) | number }}ms

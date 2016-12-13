@@ -22,7 +22,7 @@ router.head('/points', function(req, res, next) {
 
 router.get('/clusters', function(req, res, next) {
   Promise
-    .resolve([ req.query.type, req.query.bbox ])
+    .resolve([ req.query.type, req.query.bbox, res ])
     .spread(computeClusters)
     .then(_.bind(res.json, res))
     .catch(next);
@@ -42,7 +42,9 @@ function countPoints() {
   return Point.count().exec();
 }
 
-function computeClusters(type, bboxString) {
+function computeClusters(type, bboxString, res) {
+
+  var start = new Date().getTime();
 
   var coordinates = _.map(bboxString.split(','), parseFloat);
 
@@ -55,8 +57,13 @@ function computeClusters(type, bboxString) {
 
   var algorithm = algorithms[type];
   if (algorithm) {
-    return algorithm(bbox);
+    return algorithm(bbox).then(setResponseHeaders);
   } else {
     throw new Error('Unknown cluster type "' + type + '"');
+  }
+
+  function setResponseHeaders(data) {
+    res.set('SSC-Algorithm-Time', '' + (new Date().getTime() - start));
+    return data;
   }
 }

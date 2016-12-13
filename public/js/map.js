@@ -81,6 +81,7 @@ angular.module('ssc').component('map', {
           algorithm: algorithm,
           bounds: bounds,
           time: new Date().getTime() - start,
+          algorithmTime: parseInt(res.headers('SSC-Algorithm-Time'), 10),
           response: res
         });
 
