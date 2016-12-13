@@ -19,7 +19,7 @@ angular.module('ssc').component('controls', {
         controls.requestsCount++;
         controls.requests.push(request);
 
-        if (controls.requests.length > 5) {
+        if (controls.requests.length > 100) {
           controls.requests.shift();
         }
       }

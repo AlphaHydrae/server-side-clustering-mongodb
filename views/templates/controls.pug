@@ -52,7 +52,7 @@ p(ng-if='controls.pointsCount') There are {{ controls.pointsCount | number }} po
         th Algorithm
         th Time
     tbody
-      tr.data(ng-repeat-start='req in controls.requests | reverse')
+      tr.data(ng-repeat-start='req in controls.requests | reverse | limitTo: 5')
         td {{ controls.requestsCount - $index }}
         td(ng-if='req.algorithm == "geohashing"')
           | Geohashing
