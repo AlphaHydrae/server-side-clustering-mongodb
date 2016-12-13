@@ -63,7 +63,8 @@ function generateMissingPoints(data) {
     var point = new Point({
       lat: latitude,
       lng: longitude,
-      // When creating a point, pre-compute the geohash for its coordinates.
+      // When creating a point, pre-compute the geohash for its coordinates
+      // (using the ngeohash library).
       geohash: geohash.encode(latitude, longitude),
       geometry: {
         type: 'Point',
