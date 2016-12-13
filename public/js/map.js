@@ -22,7 +22,7 @@ angular.module('ssc').factory('Map', function(rx) {
 angular.module('ssc').component('map', {
   templateUrl: '/templates/map.html',
   controllerAs: 'mapCtrl',
-  controller: function($http, leafletData, $log, Map, $scope) {
+  controller: function($http, leafletData, $location, $log, Map, $scope) {
 
     var leafletMap,
         mapParams,
@@ -30,13 +30,11 @@ angular.module('ssc').component('map', {
         mapCtrl = this;
 
     mapCtrl.config = {
-      center: {
-        lat: 51.505,
-        lng: -0.09,
-        zoom: 3
-      },
+      center: {},
       markers: []
     };
+
+    setCenterFromAddress();
 
     leafletData.getMap('map').then(function(map) {
       leafletMap = map;
@@ -51,10 +49,37 @@ angular.module('ssc').component('map', {
       updateClusters();
     });
 
+    function setCenterFromAddress() {
+
+      var params = $location.search();
+
+      var lat = parseFloat(params.lat),
+          lng = parseFloat(params.lng),
+          zoom = parseInt(params.zoom, 10);
+
+      if (_.isFinite(lat) && _.isFinite(lng) && _.isFinite(zoom)) {
+        _.extend(mapCtrl.config.center, {
+          lat: lat,
+          lng: lng,
+          zoom: zoom
+        });
+      } else {
+        _.extend(mapCtrl.config.center, {
+          lat: 51.505,
+          lng: -0.09,
+          zoom: 3
+        });
+      }
+    }
+
     function updateClusters() {
       if (!leafletMap || !mapParams) {
         return;
       }
+
+      $location.search('lat', _.round(leafletMap.getCenter().lat, 5));
+      $location.search('lng', _.round(leafletMap.getCenter().lng, 5));
+      $location.search('zoom', leafletMap.getZoom());
 
       Promise
         .resolve()

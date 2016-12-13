@@ -60,15 +60,18 @@ function generateMissingPoints(data) {
     var latitude = chance.latitude(),
         longitude = chance.longitude();
 
-    points.push(new Point({
+    var point = new Point({
       lat: latitude,
       lng: longitude,
+      // When creating a point, pre-compute the geohash for its coordinates.
       geohash: geohash.encode(latitude, longitude),
       geometry: {
         type: 'Point',
         coordinates: [ longitude, latitude ]
       }
-    }));
+    });
+
+    points.push(point);
   });
 
   return Promise.map(points, function(point) {
