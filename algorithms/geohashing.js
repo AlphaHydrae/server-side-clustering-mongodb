@@ -101,11 +101,20 @@ function getGeohashLength(bbox, maxClusters) {
       lngInterval = lngInterval / Math.pow(2, 2);
     }
 
+    // Compute the number of geohashes of the current length that would
+    // be within the bounding box.
     var newNumberOfClusters = (latDiff / latInterval) * (lngDiff / lngInterval);
+
+    // If that number is greater than the maximum number of clusters we
+    // want, we are done.
     if (newNumberOfClusters > maxClusters) {
       if (numberOfClusters <= 0) {
+        // If the previous geohash length did not yield any cluster,
+        // return the current length.
         return geohashLength;
       } else {
+        // Otherwise, use the previous geohash length (the one for which
+        // the number of clusters did not exceed the maximum).
         return geohashLength - 1;
       }
     }
