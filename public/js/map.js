@@ -116,7 +116,7 @@ angular.module('ssc').component('map', {
 
     function updateMap(data) {
 
-      $log.debug('Found ' + data.clusters.length + ' clusters at precision ' + data.precision + ' matching bbox');
+      $log.debug('Found ' + data.clusters.length + ' clusters matching bbox');
 
       return Promise
         .resolve(data)
@@ -126,46 +126,45 @@ angular.module('ssc').component('map', {
     }
 
     function removeMarkers(data) {
-
-      var clusters = data.clusters,
-          precision = data.precision;
-
-      if (precision != currentPrecision) {
-        mapCtrl.config.markers.length = 0;
-        currentPrecision = precision;
-      } else {
-        mapCtrl.config.markers = _.filter(mapCtrl.config.markers, function(marker) {
-          return leafletMap.getBounds().contains([ marker.lat, marker.lng ]) && _.find(clusters, { _id: marker._id });
-        });
-      }
+      var clusters = data.clusters;
+      mapCtrl.config.markers = _.filter(mapCtrl.config.markers, function(marker) {
+        return leafletMap.getBounds().contains([ marker.lat, marker.lng ]) && !!_.find(clusters, { _id: marker._id });
+      });
     }
 
     function addClusterMarker(cluster) {
 
-      var clusterData = _.pick(cluster, '_id', 'lat', 'lng', 'minLat', 'minLng', 'maxLat', 'maxLng');
+      var markerData = _.pick(cluster, '_id', 'lat', 'lng', 'count');
 
-      var existingMarker = _.find(mapCtrl.config.markers, {
-        _id: clusterData._id
+      var marker = _.find(mapCtrl.config.markers, {
+        _id: cluster._id
       });
 
-      if (existingMarker) {
-        _.extend(existingMarker, clusterData);
-        return;
+      if (marker) {
+        _.extend(marker, markerData);
+      } else {
+        marker = markerData;
+        mapCtrl.config.markers.push(marker);
       }
+
+      if (cluster.count >= 2) {
+        marker.icon = createClusterIcon(cluster);
+      } else {
+        delete marker.icon;
+      }
+    }
+
+    function createClusterIcon(cluster) {
 
       var clusterIcon = $('<div class="cluster-icon" />');
       var value = $('<strong />').text(cluster.count).appendTo(clusterIcon);
 
-      var marker = _.extend(clusterData, {
-        icon: {
-          type: 'div',
-          html: clusterIcon[0].outerHTML,
-          iconSize: [ 40, 40 ],
-          iconAnchor: [ 20, 20 ]
-        }
-      });
-
-      mapCtrl.config.markers.push(marker);
+      return {
+        type: 'div',
+        html: clusterIcon[0].outerHTML,
+        iconSize: [ 40, 40 ],
+        iconAnchor: [ 20, 20 ]
+      };
     }
 
     function zoomToMarker(event, marker) {
