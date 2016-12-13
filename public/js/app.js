@@ -1,9 +1,7 @@
 angular.module('ssc', [
   'angular-loading-bar',
-  'hc.marked',
   'leaflet-directive',
   'ngAnimate',
-  'ngSanitize',
   'rx',
   'ui.bootstrap'
 ]);

@@ -13,8 +13,6 @@
     "angular-animate": "^1.6.0",
     "angular-leaflet-directive": "^0.10.0",
     "angular-loading-bar": "^0.9.0",
-    "angular-marked": "^1.2.2",
-    "angular-sanitize": "^1.6.0",
     "angular-ui-bootstrap": "^2.3.1",
     "bluebird": "^3.4.6",
     "body-parser": "~1.15.2",

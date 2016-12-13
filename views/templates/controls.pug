@@ -13,25 +13,31 @@ p(ng-if='controls.pointsCount') There are {{ controls.pointsCount | number }} po
     br
 
     div(ng-if='controls.params.algorithm == "geohashing"')
-      marked
-        | Points are clustered using a pre-computed [geohash](https://en.wikipedia.org/wiki/Geohash).
+      p
+        | Points are clustered using a pre-computed
+        = ' '
+        a(href='https://en.wikipedia.org/wiki/Geohash', target='_blank') geohash
+        | .
       .source-links.text-center
         .btn-group
-          a.btn.btn-info(href='https://github.com/AlphaHydrae/server-side-clustering-mongodb/blob/master/algorithms/geohashing.js')
+          a.btn.btn-info(href='https://github.com/AlphaHydrae/server-side-clustering-mongodb/blob/master/algorithms/geohashing.js', target='_blank')
             span.fa.fa-github
             = ' '
             | Algorithm
-          a.btn.btn-info(href='https://github.com/AlphaHydrae/server-side-clustering-mongodb/blob/87cb6a3a26f8861feadd83d318dd27362fdf3328/generator.js#L66-L68')
+          a.btn.btn-info(href='https://github.com/AlphaHydrae/server-side-clustering-mongodb/blob/87cb6a3a26f8861feadd83d318dd27362fdf3328/generator.js#L66-L68', target='_blank')
             span.fa.fa-github
             = ' '
             | Pre-computing
 
     div(ng-if='controls.params.algorithm == "aggregation"')
-      marked
-        | Points are aggregated by regular intervals on-the-fly using the [MongoDB aggregation pipeline](https://docs.mongodb.com/v3.2/core/aggregation-pipeline/).
+      p
+        | Points are aggregated by regular intervals on-the-fly using the
+        = ' '
+        a(href='https://docs.mongodb.com/v3.2/core/aggregation-pipeline/', target='_blank') MongoDB aggregation pipeline
+        | .
       .source-links.text-center
         .btn-group
-          a.btn.btn-info(href='https://github.com/AlphaHydrae/server-side-clustering-mongodb/blob/master/algorithms/aggregation.js')
+          a.btn.btn-info(href='https://github.com/AlphaHydrae/server-side-clustering-mongodb/blob/master/algorithms/aggregation.js', target='_blank')
             span.fa.fa-github
             = ' '
             | Algorithm
