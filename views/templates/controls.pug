@@ -8,8 +8,9 @@ p(ng-if='controls.pointsCount') There are {{ controls.pointsCount | number }} po
     h3.panel-title Algorithm
   .panel-body
     .btn-group.btn-group-justified
-      label.btn.btn-primary(ng-model='controls.params.algorithm', uib-btn-radio='"geohashing"') Geohashing
-      label.btn.btn-primary(ng-model='controls.params.algorithm', uib-btn-radio='"aggregation"') Live aggregation
+      label.btn.btn-primary(ng-model='controls.params.algorithm', uib-btn-radio='"geohashing"') Geohash
+      label.btn.btn-primary(ng-model='controls.params.algorithm', uib-btn-radio='"aggregation"') Aggregation
+      label.btn.btn-primary(ng-model='controls.params.algorithm', uib-btn-radio='"countries"') Countries
     br
 
     div(ng-if='controls.params.algorithm == "geohashing"')
@@ -58,10 +59,13 @@ p(ng-if='controls.pointsCount') There are {{ controls.pointsCount | number }} po
           | Geohashing
         td(ng-if='req.algorithm == "aggregation"')
           | Aggregation
-        td(uib-tooltip='Algorithm execution time + request round trip', tooltip-append-to-body='true')
-          | {{ req.algorithmTime | number }}ms
-          = ' '
-          small +{{ (req.time - req.algorithmTime) | number }}ms
+        td(ng-if='req.algorithm == "countries"')
+          | Countries
+        td
+          span(uib-tooltip='Algorithm execution time + request round trip', tooltip-append-to-body='true')
+            | {{ req.algorithmTime | number }}ms
+            = ' '
+            small +{{ (req.time - req.algorithmTime) | number }}ms
       tr.details(ng-repeat-end)
         td
         td(ng-if='req.algorithm == "geohashing"', colspan=2)
@@ -76,3 +80,4 @@ p(ng-if='controls.pointsCount') There are {{ controls.pointsCount | number }} po
             | {{ req.response.data.latInterval | number: 5 }}
             = ' / '
             | {{ req.response.data.lngInterval | number: 5 }}
+        td(ng-if='req.algorithm == "countries"', colspan=2)

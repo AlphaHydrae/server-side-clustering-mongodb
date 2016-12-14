@@ -5,11 +5,14 @@ var mongoose = require('mongoose'),
 var PointSchema = new Schema({
   lat: { type: Number, required: true, index: true },
   lng: { type: Number, required: true, index: true },
-  geohash: { type: String, required: true },
+  geohash: { type: String, required: true, index: true },
   geometry: {
-    type: { type: String, required: true, index: true },
-    coordinates: { type: [Number], required: true, index: { type: '2dsphere', sparse: true  } }
-  }
+    type: { type: String, required: true, enum: [ 'Point' ] },
+    coordinates: { type: [Number], required: true }
+  },
+  countryIsoCode: { type: String, index: true }
 });
+
+PointSchema.index({ geometry: '2dsphere' });
 
 module.exports = mongoose.model('Point', PointSchema);

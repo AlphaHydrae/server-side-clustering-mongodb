@@ -90,11 +90,17 @@ angular.module('ssc').component('map', {
           bounds = leafletMap.getBounds(),
           start = new Date().getTime();
 
+      var bboxString = ''
+        + Math.max(bounds.getSouthWest().lng, -180)
+        + ',' + Math.max(bounds.getSouthWest().lat, -90)
+        + ',' + Math.min(bounds.getNorthEast().lng, 180)
+        + ',' + Math.min(bounds.getNorthEast().lat, 90);
+
       return $http({
         url: '/api/clusters',
         params: {
           type: algorithm,
-          bbox: bounds.toBBoxString()
+          bbox: bboxString
         }
       }).then(function(res) {
 
@@ -112,7 +118,7 @@ angular.module('ssc').component('map', {
 
     function updateMap(data) {
 
-      $log.debug('Found ' + data.clusters.length + ' clusters matching bbox');
+      $log.info('Found ' + data.clusters.length + ' clusters matching bbox');
 
       removeMarkers(data);
 

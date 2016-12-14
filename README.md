@@ -31,3 +31,9 @@ Generate more points:
 * Set `$MONGODB_URI` or `$DATABASE_URL` to use another database connection URL (defaults to `mongodb://localhost/server-side-clustering`).
 * Set `$SSC_CLEAR` to clear and re-generate points data.
 * Set `$SSC_COUNT` to generate more points (defaults to `1000`).
+
+
+
+## Contributions
+
+* Countries GeoJSON from [https://github.com/johan/world.geo.json](https://github.com/johan/world.geo.json/blob/master/countries.geo.json)

@@ -9,6 +9,7 @@
     "node": "6.x.x"
   },
   "dependencies": {
+    "@mapbox/geojson-area": "^0.2.1",
     "angular": "^1.6.0",
     "angular-animate": "^1.6.0",
     "angular-leaflet-directive": "^0.10.0",
@@ -22,6 +23,7 @@
     "debug": "~2.2.0",
     "express": "~4.14.0",
     "font-awesome": "^4.7.0",
+    "geojson-utils": "^1.1.0",
     "jquery": "^3.1.1",
     "lodash": "^4.17.2",
     "mathjs": "^3.8.0",

@@ -5,7 +5,7 @@ angular.module('ssc').component('controls', {
 
     var controls = this;
 
-    var algorithms = [ 'geohashing', 'aggregation' ];
+    var algorithms = [ 'geohashing', 'aggregation', 'countries' ];
 
     controls.params = {};
 

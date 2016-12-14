@@ -6,8 +6,13 @@ var _ = require('lodash'),
 
 var algorithms = {
   aggregation: require('../algorithms/aggregation'),
-  geohashing: require('../algorithms/geohashing')
+  geohashing: require('../algorithms/geohashing'),
+  countries: require('../algorithms/countries')
 };
+
+router.get('/algorithms', function(req, res) {
+  res.json(listAlgorithms());
+})
 
 router.head('/points', function(req, res, next) {
   Promise
@@ -66,4 +71,14 @@ function computeClusters(type, bboxString, res) {
     res.set('SSC-Algorithm-Time', '' + (new Date().getTime() - start));
     return data;
   }
+}
+
+function listAlgorithms() {
+  return _.reduce(algorithms, function(memo, algorithm, name) {
+    memo.push({
+      name: name
+    });
+
+    return memo;
+  }, [])
 }
