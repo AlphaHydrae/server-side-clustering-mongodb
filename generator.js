@@ -152,7 +152,7 @@ function generatePoints(data) {
     debug('Generated ' + data.generatedCount + '/' + (data.targetCount - data.count) + ' points');
 
     if (data.count + data.generatedCount < data.targetCount) {
-      return generateMissingPoints(data);
+      return generatePoints(data);
     }
   });
 }
