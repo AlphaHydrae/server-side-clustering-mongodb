@@ -22,7 +22,7 @@ angular.module('ssc').factory('Map', function(rx) {
 angular.module('ssc').component('map', {
   templateUrl: '/templates/map.html',
   controllerAs: 'mapCtrl',
-  controller: function($http, leafletData, $location, $log, Map, $scope) {
+  controller: function($http, leafletData, $location, $log, Map, $scope, $timeout) {
 
     var leafletMap,
         mapParams,
@@ -81,11 +81,7 @@ angular.module('ssc').component('map', {
       $location.search('lng', _.round(leafletMap.getCenter().lng, 5));
       $location.search('zoom', leafletMap.getZoom());
 
-      Promise
-        .resolve()
-        .then(fetchClusters)
-        .then(updateMap)
-        .then(_.bind($scope.$apply, $scope));
+      fetchClusters().then(updateMap);
     }
 
     function fetchClusters() {
@@ -118,11 +114,13 @@ angular.module('ssc').component('map', {
 
       $log.debug('Found ' + data.clusters.length + ' clusters matching bbox');
 
-      return Promise
-        .resolve(data)
-        .then(removeMarkers)
-        .return(data.clusters)
-        .each(addClusterMarker);
+      removeMarkers(data);
+
+      // Wait for leaflet to remove the markers before adding new ones,
+      // otherwise it loses its mind.
+      $timeout(function() {
+        _.each(data.clusters, addClusterMarker);
+      }, 1);
     }
 
     function removeMarkers(data) {
