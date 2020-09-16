@@ -39,7 +39,7 @@ router.use(function(err, req, res, next) {
 module.exports = router;
 
 function countPoints() {
-  return Point.count().exec();
+  return Point.countDocuments().exec();
 }
 
 function computeClusters(type, bboxString, res) {

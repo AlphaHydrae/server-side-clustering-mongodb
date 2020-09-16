@@ -31,11 +31,11 @@ module.exports = function() {
 };
 
 function clearPoints() {
-  return Point.remove({});
+  return Point.deleteMany({});
 }
 
 function countPoints(data) {
-  return Point.count().then(function(count) {
+  return Point.countDocuments().then(function(count) {
     data.count = count;
   });
 }
