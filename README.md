@@ -10,14 +10,14 @@ This web app demonstrates how to implement some server-side map clustering algor
 
 Requirements:
 
-* MongoDB 3+
-* Node.js 6+
+* MongoDB 4+
+* Node.js 14+
 
 Install and run it:
 
     git clone https://github.com/AlphaHydrae/server-side-clustering-mongodb.git
     cd server-side-clustering-mongodb
-    npm install
+    npm ci
     npm start
 
 Generate more points:
